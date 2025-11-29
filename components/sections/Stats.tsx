@@ -8,9 +8,9 @@ export function Stats() {
     const statsList = [
         {
             value: STATS.network.tps,
-            label: "Transactions Per Second",
+            label: "Target TPS",
             color: "cyan" as const,
-            description: "Peak throughput capacity",
+            description: "Projected throughput",
         },
         {
             value: STATS.network.finality,
@@ -20,15 +20,15 @@ export function Stats() {
         },
         {
             value: STATS.network.validators,
-            label: "Active Validators",
+            label: "Validator Slots",
             color: "purple" as const,
-            description: "Securing the network",
+            description: "Open for application",
         },
         {
             value: STATS.network.uptime,
-            label: "Network Uptime",
+            label: "Target Uptime",
             color: "green" as const,
-            description: "Since mainnet launch",
+            description: "High-availability design",
         },
     ];
 
@@ -45,7 +45,7 @@ export function Stats() {
                         Network <span className="gradient-text">Performance</span>
                     </h2>
                     <p className="text-xl text-fortis-gray-300">
-                        Real-time metrics from the Fortis Ledger network
+                        Projected performance metrics for Mainnet Launch
                     </p>
                 </div>
 
@@ -70,7 +70,7 @@ export function Stats() {
                 {/* Additional info */}
                 <div className="mt-12 text-center">
                     <p className="text-fortis-gray-400 text-sm">
-                        Network statistics updated in real-time. View full metrics on the{" "}
+                        Metrics based on internal testnet benchmarks. View live testnet data on the{" "}
                         <a href="/ecosystem/explorer" className="text-fortis-cyan hover:text-fortis-cyan-light transition-colors underline">
                             Block Explorer
                         </a>

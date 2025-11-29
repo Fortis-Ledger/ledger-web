@@ -60,7 +60,7 @@ export function Navbar() {
                     {/* CTA Button */}
                     <div className="hidden md:block">
                         <Button variant="default" className="shadow-neon-cyan">
-                            Launch App
+                            Join Waitlist
                         </Button>
                     </div>
 
@@ -92,7 +92,7 @@ export function Navbar() {
                             </Link>
                         ))}
                         <div className="mt-4 px-3">
-                            <Button className="w-full shadow-neon-cyan">Launch App</Button>
+                            <Button className="w-full shadow-neon-cyan">Join Waitlist</Button>
                         </div>
                     </div>
                 </div>

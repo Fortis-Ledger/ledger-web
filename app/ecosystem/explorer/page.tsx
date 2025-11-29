@@ -1,216 +1,99 @@
 "use client";
 
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { useState } from "react";
-import { Search, TrendingUp, Users, Box } from "lucide-react";
-
-const mockBlocks = [
-    { height: 1234567, hash: "0x7f8a9b2c...", txCount: 234, validator: "Validator Alpha", time: "2s ago" },
-    { height: 1234566, hash: "0x3e6d5f1a...", txCount: 189, validator: "Validator Beta", time: "4s ago" },
-    { height: 1234565, hash: "0x9c4b8e2d...", txCount: 312, validator: "Validator Gamma", time: "6s ago" },
-    { height: 1234564, hash: "0x1a7f3c5b...", txCount: 156, validator: "Validator Delta", time: "8s ago" },
-    { height: 1234563, hash: "0x6e2d9a4f...", txCount: 278, validator: "Validator Epsilon", time: "10s ago" },
-];
-
-const mockTransactions = [
-    { hash: "0xa1b2c3d4...", from: "fortis1qx7k...", to: "fortis1yz8m...", amount: "1,250.50 FORT", status: "Success" },
-    { hash: "0xe5f6g7h8...", from: "fortis1ab3n...", to: "fortis1cd4p...", amount: "89.25 FORT", status: "Success" },
-    { hash: "0xi9j0k1l2...", from: "fortis1ef5q...", to: "fortis1gh6r...", amount: "5,430.00 FORT", status: "Success" },
-    { hash: "0xm3n4o5p6...", from: "fortis1ij7s...", to: "fortis1kl8t...", amount: "234.75 FORT", status: "Success" },
-];
+import { ExplorerSidebar } from "@/components/explorer/Sidebar";
+import { ChartCard } from "@/components/explorer/ChartCard";
+import { TransactionTable } from "@/components/explorer/TransactionTable";
+import { Input } from "@/components/ui/input";
+import { Search, ChevronDown, Layers, Box, Activity, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ExplorerPage() {
-    const [searchQuery, setSearchQuery] = useState("");
-
     return (
-        <main className="min-h-screen bg-fortis-black">
-            <Navbar />
+        <div className="min-h-screen bg-[#020412] text-white flex">
+            {/* Sidebar */}
+            <ExplorerSidebar />
 
-            <PageHeader
-                title="Fortis Explorer"
-                subtitle="Real-time blockchain explorer with transaction tracking and network analytics (Demo Data - Mainnet Q2 2024)"
-                breadcrumb={[
-                    { label: "Home", href: "/" },
-                    { label: "Ecosystem", href: "/ecosystem" },
-                    { label: "Explorer" }
-                ]}
-            />
+            {/* Main Content */}
+            <main className="flex-1 lg:pl-64 min-h-screen relative">
+                {/* Background Gradients */}
+                <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none" />
 
-            {/* Search Bar */}
-            <section className="py-12 px-4 bg-fortis-gray-900/30">
-                <div className="max-w-4xl mx-auto">
-                    <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-fortis-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Search by Block Height / Transaction Hash / Address"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 rounded-xl bg-fortis-gray-800 border border-fortis-gray-700 text-white focus:outline-none focus:border-fortis-cyan transition-colors"
+                <div className="p-4 lg:p-8 max-w-[1600px] mx-auto relative z-10">
+
+                    {/* Development Warning */}
+                    <div className="mb-8 p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center gap-3">
+                        <div className="p-2 rounded-full bg-yellow-500/20">
+                            <Zap className="w-4 h-4 text-yellow-500" />
+                        </div>
+                        <div className="text-sm text-yellow-200/80">
+                            <span className="font-bold text-yellow-500">System Under Development:</span> You are viewing simulated data on the Fortis Testnet. Mainnet launch is scheduled for Q4 2025.
+                        </div>
+                    </div>
+
+                    {/* Top Bar */}
+                    <header className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                        <div className="flex items-center gap-4 w-full md:w-auto">
+                            <Button variant="outline" className="border-white/10 bg-[#0A0F1E] text-white hover:bg-white/5 gap-2 min-w-[140px] justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                                    Testnet (Beta)
+                                </div>
+                                <ChevronDown className="w-4 h-4 text-white/40" />
+                            </Button>
+                        </div>
+
+                        <div className="relative w-full md:w-96">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-200/40" />
+                            <Input
+                                placeholder="Search for a tx, address, name or block"
+                                className="pl-10 bg-[#0A0F1E] border-white/10 text-white placeholder:text-blue-200/20 h-10 rounded-xl focus-visible:ring-blue-500/50"
+                            />
+                        </div>
+                    </header>
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        {[
+                            { label: "Addresses", value: "2,631,766", icon: Layers, color: "text-blue-400" },
+                            { label: "Block Height", value: "1,544,968", icon: Box, color: "text-purple-400" },
+                            { label: "Transactions", value: "26,771,945", icon: Activity, color: "text-cyan-400" },
+                            { label: "TPS", value: "0.79", icon: Zap, color: "text-green-400" },
+                        ].map((stat, i) => (
+                            <div key={i} className="p-4 rounded-2xl bg-[#0A0F1E] border border-white/5 flex items-center gap-4">
+                                <div className={`p-3 rounded-xl bg-white/5 ${stat.color}`}>
+                                    <stat.icon className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <div className="text-xs text-blue-200/50 mb-1">{stat.label}</div>
+                                    <div className="text-xl font-bold text-white">{stat.value}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Charts Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <ChartCard
+                            title="Transactions"
+                            value="46,937"
+                            change="+12.5%"
+                            data={[30, 45, 35, 55, 45, 60, 50, 75, 65, 80, 70, 90]}
+                            color="cyan"
+                        />
+                        <ChartCard
+                            title="Address Growth"
+                            value="5,839"
+                            change="+5.2%"
+                            data={[20, 25, 30, 28, 35, 40, 38, 45, 50, 55, 60, 65]}
+                            color="blue"
                         />
                     </div>
+
+                    {/* Transactions Table */}
+                    <TransactionTable />
+
                 </div>
-            </section>
-
-            {/* Stats Overview */}
-            <section className="py-16 px-4">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-fortis-cyan/10 to-transparent border border-fortis-cyan/20">
-                            <TrendingUp className="w-8 h-8 text-fortis-cyan mb-3" />
-                            <div className="text-3xl font-bold text-white mb-1">1,234,567</div>
-                            <div className="text-sm text-fortis-gray-300">Block Height</div>
-                        </div>
-
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-fortis-violet/10 to-transparent border border-fortis-violet/20">
-                            <Box className="w-8 h-8 text-fortis-violet mb-3" />
-                            <div className="text-3xl font-bold text-white mb-1">87,432</div>
-                            <div className="text-sm text-fortis-gray-300">Transactions (24h)</div>
-                        </div>
-
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-fortis-purple/10 to-transparent border border-fortis-purple/20">
-                            <Users className="w-8 h-8 text-fortis-purple mb-3" />
-                            <div className="text-3xl font-bold text-white mb-1">10,247</div>
-                            <div className="text-sm text-fortis-gray-300">Active Validators</div>
-                        </div>
-
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-fortis-green/10 to-transparent border border-fortis-green/20">
-                            <TrendingUp className="w-8 h-8 text-fortis-green mb-3" />
-                            <div className="text-3xl font-bold text-white mb-1">0.8s</div>
-                            <div className="text-sm text-fortis-gray-300">Avg Block Time</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Latest Blocks & Transactions */}
-            <section className="py-12 px-4">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* Latest Blocks */}
-                        <div>
-                            <h2 className="text-2xl font-bold text-white mb-6">Latest Blocks (Demo Data)</h2>
-                            <div className="space-y-3">
-                                {mockBlocks.map((block, index) => (
-                                    <div
-                                        key={index}
-                                        className="p-4 rounded-xl bg-fortis-gray-800/50 border border-fortis-gray-700 hover:border-fortis-cyan/30 transition-all cursor-pointer"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-lg bg-fortis-cyan/20 flex items-center justify-center">
-                                                    <Box className="w-5 h-5 text-fortis-cyan" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-white font-semibold">
-                                                        Block #{block.height.toLocaleString()}
-                                                    </div>
-                                                    <div className="text-sm text-fortis-gray-400">
-                                                        {block.time}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className="text-sm text-fortis-cyan">
-                                                    {block.txCount} txns
-                                                </div>
-                                                <div className="text-xs text-fortis-gray-400">
-                                                    {block.hash}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="text-xs text-fortis-gray-400">
-                                            Validator: <span className="text-fortis-gray-300">{block.validator}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Latest Transactions */}
-                        <div>
-                            <h2 className="text-2xl font-bold text-white mb-6">Latest Transactions (Demo Data)</h2>
-                            <div className="space-y-3">
-                                {mockTransactions.map((tx, index) => (
-                                    <div
-                                        key={index}
-                                        className="p-4 rounded-xl bg-fortis-gray-800/50 border border-fortis-gray-700 hover:border-fortis-violet/30 transition-all cursor-pointer"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="text-sm text-fortis-gray-400">
-                                                {tx.hash}
-                                            </div>
-                                            <div className="px-2 py-1 rounded bg-fortis-green/20 text-fortis-green text-xs font-medium">
-                                                {tx.status}
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-sm mb-1">
-                                            <span className="text-fortis-gray-400">From:</span>
-                                            <span className="text-fortis-gray-300 font-mono">{tx.from}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-sm mb-2">
-                                            <span className="text-fortis-gray-400">To:</span>
-                                            <span className="text-fortis-gray-300 font-mono">{tx.to}</span>
-                                        </div>
-                                        <div className="text-white font-semibold">
-                                            {tx.amount}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* View All Links */}
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                        <a
-                            href="#"
-                            className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-fortis-cyan text-fortis-cyan font-medium hover:bg-fortis-cyan/10 transition-all"
-                        >
-                            View All Blocks
-                        </a>
-                        <a
-                            href="#"
-                            className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-fortis-violet text-fortis-violet font-medium hover:bg-fortis-violet/10 transition-all"
-                        >
-                            View All Transactions
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            {/* Network Health */}
-            <section className="py-24 px-4 bg-gradient-to-b from-transparent to-fortis-gray-900">
-                <div className="max-w-7xl mx-auto">
-                    <h2 className="text-4xl font-bold text-center text-white mb-16">
-                        Network <span className="gradient-text">Health</span> (Simulated)
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="p-8 rounded-2xl bg-fortis-gray-800/50 border border-fortis-gray-700 text-center">
-                            <div className="text-6xl font-bold text-fortis-green mb-2">99.99%</div>
-                            <div className="text-xl text-white mb-2">Uptime</div>
-                            <div className="text-sm text-fortis-gray-400">Since mainnet launch</div>
-                        </div>
-
-                        <div className="p-8 rounded-2xl bg-fortis-gray-800/50 border border-fortis-gray-700 text-center">
-                            <div className="text-6xl font-bold text-fortis-cyan mb-2">127</div>
-                            <div className="text-xl text-white mb-2">Active Peers</div>
-                            <div className="text-sm text-fortis-gray-400">Globally distributed</div>
-                        </div>
-
-                        <div className="p-8 rounded-2xl bg-fortis-gray-800/50 border border-fortis-gray-700 text-center">
-                            <div className="text-6xl font-bold text-fortis-violet mb-2">42ms</div>
-                            <div className="text-xl text-white mb-2">Network Latency</div>
-                            <div className="text-sm text-fortis-gray-400">Average P2P latency</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <Footer />
-        </main>
+            </main>
+        </div>
     );
 }

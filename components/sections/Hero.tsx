@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import EnhancedHeroScene from "@/components/webgl/EnhancedHeroScene";
-import { ArrowRight, Play } from "lucide-react";
+import GlobeScene from "@/components/webgl/GlobeScene";
+import { ArrowRight, Play, CheckCircle2, Users } from "lucide-react";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -10,110 +10,129 @@ import { useGSAP } from "@gsap/react";
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
-    const hudRef = useRef<HTMLDivElement>(null);
+    const cardRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
         const tl = gsap.timeline();
 
-        // HUD elements animation
-        tl.from(hudRef.current?.children || [], {
-            opacity: 0,
-            y: -10,
-            duration: 1.5,
-            stagger: 0.2,
-            ease: "power2.out",
-        });
-
-        // Main text animation
+        // Text animation
         tl.from(textRef.current?.children || [], {
             y: 40,
             opacity: 0,
-            duration: 1.2,
+            duration: 1,
             stagger: 0.15,
             ease: "power3.out",
-        }, "-=1");
+        });
+
+        // Floating card animation
+        tl.from(cardRef.current, {
+            x: 50,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power3.out",
+        }, "-=0.8");
+
     }, { scope: containerRef });
 
     return (
-        <section ref={containerRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-fortis-black">
-            {/* Enhanced WebGL Background */}
-            <EnhancedHeroScene />
+        <section ref={containerRef} className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#020412]">
+            {/* WebGL Globe Background (Right Aligned) */}
+            <GlobeScene />
 
-            {/* Subtle Gradient Overlay for Text Readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
-            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)] opacity-10 pointer-events-none" />
+            {/* Background Gradients */}
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#020412] via-[#020412]/80 to-transparent z-0 pointer-events-none" />
+            <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
 
-            {/* Minimal HUD Elements */}
-            <div ref={hudRef} className="absolute inset-0 pointer-events-none z-10 hidden md:block">
-                {/* Top Bar */}
-                <div className="absolute top-24 left-0 right-0 px-12 flex justify-between items-start text-[10px] font-mono text-fortis-gray-500 tracking-widest uppercase">
-                    <div className="flex flex-col gap-1">
-                        <span className="text-fortis-cyan">System Status: Nominal</span>
-                        <span>Encryption: Post-Quantum 256-bit</span>
-                    </div>
-                    <div className="flex flex-col gap-1 text-right">
-                        <span className="text-fortis-violet">Network: Testnet Alpha</span>
-                        <span>Block Height: 12,405,992</span>
-                    </div>
-                </div>
+            {/* Main Content Container */}
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-                {/* Center Crosshair */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full opacity-20" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 border border-white/20 opacity-50" />
-            </div>
-
-            {/* Main Content */}
-            <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center h-full flex flex-col justify-center pt-20">
-                <div ref={textRef} className="flex flex-col items-center">
+                {/* Left Column: Text Content */}
+                <div ref={textRef} className="flex flex-col items-start text-left pt-20 lg:pt-0">
 
                     {/* Badge */}
-                    <div className="mb-6 md:mb-8 inline-flex items-center gap-2 px-3 py-1.5 md:px-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors cursor-default">
-                        <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fortis-cyan opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 md:h-2 md:w-2 bg-fortis-cyan"></span>
+                    <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                         </span>
-                        <span className="text-[10px] md:text-xs font-medium text-fortis-gray-300 tracking-wider uppercase">Ecosystem Preview • Q2 2024</span>
+                        <span className="text-xs font-medium text-blue-200 tracking-wide uppercase">Fortis Ledger • Early Preview</span>
                     </div>
 
-                    {/* Headline */}
-                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white mb-6 md:mb-8 leading-[1.1]">
-                        <span className="block text-2xl sm:text-4xl md:text-6xl font-light text-fortis-gray-400 mb-1 md:mb-2 tracking-wide opacity-80">Secure Beyond</span>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-fortis-cyan via-white to-fortis-violet animate-gradient-x pb-2 block">
-                            Tomorrow
+                    {/* Headline - Reduced Size */}
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
+                        Revolutionize Your <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                            Digital Assets.
                         </span>
                     </h1>
 
-                    {/* Description */}
-                    <p className="text-base sm:text-lg md:text-xl text-fortis-gray-400 max-w-xs sm:max-w-2xl mb-8 md:mb-10 leading-relaxed font-light mx-auto">
-                        The world's first <span className="text-white font-medium">quantum-resistant</span> Layer 1 blockchain.
-                        Engineered for infinite scalability and zero-trust security.
+                    {/* Description - Reduced Size */}
+                    <p className="text-base sm:text-lg text-blue-100/60 max-w-xl mb-8 leading-relaxed font-light">
+                        Streamline your blockchain infrastructure with AI-powered automation,
+                        predictive security, and tools built to connect your business to the quantum future.
                     </p>
 
-                    {/* Action Area */}
-                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center px-4">
-                        <Button size="lg" className="w-full sm:w-auto h-12 px-8 bg-white text-black hover:bg-fortis-cyan hover:text-black transition-all duration-300 font-semibold text-base rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]">
-                            Start Building <ArrowRight className="ml-2 w-4 h-4" />
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                        <Button size="lg" className="w-full sm:w-auto h-14 px-8 bg-white text-[#020412] hover:bg-blue-50 transition-all duration-300 font-bold text-base rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                            Get Started <ArrowRight className="ml-2 w-4 h-4" />
                         </Button>
-                        <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 border-white/20 text-white hover:bg-white/10 transition-all duration-300 font-medium text-base rounded-full backdrop-blur-sm">
-                            <Play className="mr-2 w-3 h-3 fill-current" /> Watch Demo
+                        <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 border-white/10 text-white hover:bg-white/5 transition-all duration-300 font-medium text-base rounded-full backdrop-blur-sm">
+                            Contact Sales
                         </Button>
                     </div>
 
-                    {/* Bottom Stats - Clean & Minimal */}
-                    <div className="mt-12 md:mt-24 w-full max-w-3xl border-t border-white/5 pt-6 md:pt-8 flex justify-between items-center px-2 md:px-16 gap-2">
-                        <div className="flex flex-col items-center gap-1 flex-1">
-                            <span className="text-xl md:text-2xl font-bold text-white font-mono">PQC</span>
-                            <span className="text-[8px] md:text-[10px] text-fortis-gray-500 uppercase tracking-widest">Security</span>
+                    {/* Trust Indicators */}
+                    <div className="mt-12 flex items-center gap-4 text-sm text-blue-200/40">
+                        <div className="flex -space-x-2">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-[#020412] flex items-center justify-center text-[10px] text-white font-bold">
+                                    U{i}
+                                </div>
+                            ))}
                         </div>
-                        <div className="w-px h-6 md:h-8 bg-white/10" />
-                        <div className="flex flex-col items-center gap-1 flex-1">
-                            <span className="text-xl md:text-2xl font-bold text-white font-mono">100k+</span>
-                            <span className="text-[8px] md:text-[10px] text-fortis-gray-500 uppercase tracking-widest">TPS</span>
+                        <p>Join 10,000+ developers on the waitlist</p>
+                    </div>
+                </div>
+
+                {/* Right Column: Floating UI Card (Visual only, over globe) */}
+                <div className="hidden lg:flex justify-end relative h-[600px] pointer-events-none">
+                    {/* The Globe is in the background, this is just for the floating card overlay */}
+
+                    <div ref={cardRef} className="absolute bottom-20 right-10 w-80 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl shadow-blue-900/20">
+                        {/* Fake UI Content */}
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                    <Users className="w-5 h-5 text-blue-400" />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-bold text-white">Active Nodes</div>
+                                    <div className="text-xs text-blue-200/50">Testnet Nodes</div>
+                                </div>
+                            </div>
+                            <div className="text-green-400 text-xs font-bold">+24%</div>
                         </div>
-                        <div className="w-px h-6 md:h-8 bg-white/10" />
-                        <div className="flex flex-col items-center gap-1 flex-1">
-                            <span className="text-xl md:text-2xl font-bold text-white font-mono">0.5s</span>
-                            <span className="text-[8px] md:text-[10px] text-fortis-gray-500 uppercase tracking-widest">Finality</span>
+
+                        <div className="space-y-3">
+                            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                <div className="h-full w-[75%] bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full" />
+                            </div>
+                            <div className="flex justify-between text-xs text-blue-200/60">
+                                <span>Sync Status</span>
+                                <span>98.5%</span>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 pt-6 border-t border-white/5">
+                            <div className="flex items-center gap-3 mb-2">
+                                <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                <span className="text-sm text-white">Quantum Encryption</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                <span className="text-sm text-white">Zero-Knowledge Proofs</span>
+                            </div>
                         </div>
                     </div>
                 </div>
