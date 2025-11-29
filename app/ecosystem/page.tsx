@@ -1,81 +1,126 @@
+"use client";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Button } from "@/components/ui/button";
+import { ProductCard } from "@/components/ui/product-card";
+import { Shield, Wallet, Search, Code, Link2, User, Brain } from "lucide-react";
 
-const partners = [
-    { name: "QuantumGuard", category: "Security" },
-    { name: "Nebula Fi", category: "DeFi" },
-    { name: "Aegis Wallet", category: "Wallet" },
-    { name: "Orbital", category: "Infrastructure" },
-    { name: "Flux Layer", category: "Bridge" },
-    { name: "Zenith", category: "NFT" },
+const products = [
+    {
+        name: "Fortis Blockchain",
+        subtitle: "Quantum-Resistant Layer 1",
+        description: "Core blockchain infrastructure with post-quantum cryptography, sub-second finality, and infinite scalability.",
+        icon: Shield,
+        color: "cyan" as const,
+        href: "/ecosystem/blockchain",
+    },
+    {
+        name: "Quantum Wallet",
+        subtitle: "MPC Wallet",
+        description: "Next-gen wallet with multi-party computation, quantum-safe keys, and seedless recovery.",
+        icon: Wallet,
+        color: "violet" as const,
+        href: "/ecosystem/wallet",
+    },
+    {
+        name: "Fortis Explorer",
+        subtitle: "Block Explorer",
+        description: "Real-time blockchain explorer with transaction tracking, validator analytics, and network metrics.",
+        icon: Search,
+        color: "blue" as const,
+        href: "/ecosystem/explorer",
+    },
+    {
+        name: "Fortis SDK",
+        subtitle: "Developer Toolkits",
+        description: "Production-ready SDKs for JavaScript, Rust, and Python with comprehensive docs.",
+        icon: Code,
+        color: "purple" as const,
+        href: "/ecosystem/sdks",
+    },
+    {
+        name: "Fortis Bridge",
+        subtitle: "Cross-Chain Bridge",
+        description: "Secure asset and message bridging between Fortis and other major blockchains.",
+        icon: Link2,
+        color: "green" as const,
+        href: "/ecosystem/bridge",
+    },
+    {
+        name: "Fortis ID",
+        subtitle: "Quantum Identity",
+        description: "Zero-knowledge identity system with quantum-resistant signatures and credentials.",
+        icon: User,
+        color: "yellow" as const,
+        href: "/ecosystem/identity",
+    },
+    {
+        name: "Fortis Compute",
+        subtitle: "Confidential Compute",
+        description: "Decentralized compute for AI and analytics with MPC guarantees.",
+        icon: Brain,
+        color: "violet" as const,
+        href: "/ecosystem/compute",
+    },
 ];
 
 export default function EcosystemPage() {
     return (
-        <main className="min-h-screen bg-fortis-black selection:bg-fortis-cyan/30">
+        <main className="min-h-screen bg-fortis-black">
             <Navbar />
 
             <PageHeader
-                title="Thriving Ecosystem"
-                description="Discover the dApps, wallets, and infrastructure projects securing their future on Fortis Ledger."
+                title="Ecosystem"
+                subtitle="Complete suite of quantum-resistant infrastructure and tools"
+                breadcrumb={[
+                    { label: "Home", href: "/" },
+                    { label: "Ecosystem" }
+                ]}
             />
 
-            <section className="py-20 px-4 sm:px-6 lg:px-8">
+            {/* Products Grid */}
+            <section className="py-24 px-4">
                 <div className="max-w-7xl mx-auto">
-
-                    {/* Filter/Search Placeholder */}
-                    <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">
-                        <div className="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto">
-                            <Button variant="secondary" size="sm" className="bg-fortis-cyan/20 text-fortis-cyan border border-fortis-cyan/50">All</Button>
-                            <Button variant="outline" size="sm">DeFi</Button>
-                            <Button variant="outline" size="sm">Infrastructure</Button>
-                            <Button variant="outline" size="sm">Wallets</Button>
-                            <Button variant="outline" size="sm">Gaming</Button>
-                        </div>
-                        <div className="w-full sm:w-64">
-                            <input
-                                type="text"
-                                placeholder="Search ecosystem..."
-                                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm text-white focus:outline-none focus:border-fortis-cyan transition-colors"
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {products.map((product, index) => (
+                            <ProductCard
+                                key={index}
+                                title={product.name}
+                                subtitle={product.subtitle}
+                                description={product.description}
+                                icon={product.icon}
+                                color={product.color}
+                                href={product.href}
                             />
-                        </div>
-                    </div>
-
-                    {/* Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {partners.map((partner, i) => (
-                            <div key={i} className="group p-6 rounded-xl bg-white/5 border border-white/10 hover:border-fortis-cyan/50 transition-all hover:-translate-y-1">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white/10 to-white/5" />
-                                    <span className="text-xs font-medium text-fortis-slate bg-white/5 px-2 py-1 rounded-full">
-                                        {partner.category}
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-bold text-white mb-2">{partner.name}</h3>
-                                <p className="text-fortis-slate text-sm mb-4">
-                                    Building the next generation of {partner.category.toLowerCase()} on quantum-secure rails.
-                                </p>
-                                <div className="flex items-center text-fortis-cyan text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                                    View Project →
-                                </div>
-                            </div>
                         ))}
                     </div>
-
                 </div>
             </section>
 
-            <section className="py-24 bg-fortis-event border-t border-white/5">
-                <div className="max-w-7xl mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold text-white mb-6">Partner with Fortis</h2>
-                    <p className="text-fortis-slate max-w-2xl mx-auto mb-8">
-                        We offer grants, technical support, and co-marketing opportunities for teams building high-impact projects.
+            {/* Integration CTA */}
+            <section className="py-24 px-4 bg-gradient-to-b from-transparent to-fortis-gray-900">
+                <div className="max-w-5xl mx-auto text-center">
+                    <h2 className="text-4xl font-bold text-white mb-6">
+                        Ready to Build on <span className="gradient-text">Fortis</span>?
+                    </h2>
+                    <p className="text-xl text-fortis-gray-300 mb-8 max-w-3xl mx-auto">
+                        Join thousands of developers building quantum-resistant applications
                     </p>
-                    <Button size="lg" className="shadow-neon-violet bg-gradient-to-r from-fortis-violet to-purple-600">
-                        Apply for Grant
-                    </Button>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a
+                            href="/developers"
+                            className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-fortis-gradient text-white font-semibold shadow-neon-cyan hover:shadow-neon-cyan-lg transition-all"
+                        >
+                            Start Building
+                        </a>
+                        <a
+                            href="/developers/docs"
+                            className="inline-flex items-center justify-center px-8 py-4 rounded-lg border border-fortis-cyan text-fortis-cyan font-semibold hover:bg-fortis-cyan/10 transition-all"
+                        >
+                            View Documentation
+                        </a>
+                    </div>
                 </div>
             </section>
 
